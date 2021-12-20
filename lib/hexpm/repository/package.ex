@@ -75,14 +75,6 @@ defmodule Hexpm.Repository.Package do
     )
   end
 
-  defp put_first_owner(changeset, user, repository) do
-    if repository.public do
-      put_assoc(changeset, :package_owners, [%PackageOwner{user_id: user.id}])
-    else
-      changeset
-    end
-  end
-
   def update(package, params) do
     cast(package, params, [])
     |> cast_embed(:meta, with: &PackageMetadata.changeset(&1, &2, package), required: true)
@@ -152,6 +144,14 @@ defmodule Hexpm.Repository.Package do
       select: count(p.id)
     )
     |> search(search)
+  end
+
+  defp put_first_owner(changeset, user, repository) do
+    if repository.public do
+      put_assoc(changeset, :package_owners, [%PackageOwner{user_id: user.id}])
+    else
+      changeset
+    end
   end
 
   defp validate_metadata_name(changeset) do
