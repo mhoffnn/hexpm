@@ -77,7 +77,7 @@ defmodule Hexpm.Repository.Package do
 
   def update(package, params) do
     cast(package, params, [])
-    |> cast_embed(:meta, with: &PackageMetadata.changeset(&1, &2, package), required: true)
+    |> cast_embed(:meta, with: &PackageMetadata.update_changeset(&1, &2, package), required: true)
     |> validate_metadata_name()
   end
 
