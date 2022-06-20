@@ -230,5 +230,111 @@ defmodule HexpmWeb.Dashboard.AuditLogViewTest do
 
       assert AuditLogView.humanize_audit_log_info(log) == "Update password"
     end
+
+    test "security.update" do
+      log = build(:audit_log, action: "security.update")
+
+      assert AuditLogView.humanize_audit_log_info(log) == "Update TFA settings"
+    end
+
+    test "security.rotate_recovery_codes" do
+      log = build(:audit_log, action: "security.rotate_recovery_codes")
+
+      assert AuditLogView.humanize_audit_log_info(log) == "Rotate TFA recovery codes"
+    end
+
+    test "billing.checkout" do
+      log =
+        build(:audit_log,
+          action: "billing.checkout",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+          }
+        )
+
+      assert AuditLogView.humanize_audit_log_info(log) ==
+               "Update payment method for organization Test Inc."
+    end
+
+    test "billing.cancel" do
+      log =
+        build(:audit_log,
+          action: "billing.cancel",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+          }
+        )
+
+      assert AuditLogView.humanize_audit_log_info(log) ==
+               "Cancel billing on organization Test Inc."
+    end
+
+    test "billing.create" do
+      log =
+        build(:audit_log,
+          action: "billing.create",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+          }
+        )
+
+      assert AuditLogView.humanize_audit_log_info(log) ==
+               "Add billing information to organization Test Inc."    
+    end
+
+    test "billing.update monthly" do
+      log =
+        build(:audit_log,
+          action: "billing.update",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+            "plan_id" => "organization-monthly"
+          }
+          )
+          
+          assert AuditLogView.humanize_audit_log_info(log) ==
+          "Update billing information for organization Test Inc."        
+        end
+
+    test "billing.change_plan monthly" do
+      log =
+        build(:audit_log,
+          action: "billing.change_plan",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+            "plan_id" => "organization-monthly"
+          }
+          )
+          
+          assert AuditLogView.humanize_audit_log_info(log) ==
+          "Change billing plan on organization Test Inc. to monthly"        
+        end
+        
+        test "billing.change_plan annualy" do
+          log =
+          build(:audit_log,
+          action: "billing.change_plan",
+          params: %{
+            "organization" => %{"name" => "Test Inc."},
+            "plan_id" => "organization-annually"
+          }
+        )
+
+      assert AuditLogView.humanize_audit_log_info(log) ==
+               "Change billing plan on organization Test Inc. to annually"    
+    end
+
+    test "billing.pay_invoice" do
+      log =
+        build(:audit_log,
+          action: "billing.pay_invoice",
+          params: %{
+            "organization" => %{"name" => "Test Inc."}
+          }
+        )
+
+      assert AuditLogView.humanize_audit_log_info(log) ==
+               "Manually pay invoice for organization Test Inc."  
+    end
   end
 end

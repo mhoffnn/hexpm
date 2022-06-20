@@ -13,7 +13,19 @@ defmodule Hexpm.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       releases: releases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env:
+        cli_env_for(:test, [
+          "muzak",
+          "exavier",
+          "coveralls",
+          "coveralls.detail",
+          "coveralls.html",
+          "coveralls.json",
+          "coveralls.post",
+          "coveralls.github"
+        ])
     ]
   end
 
@@ -22,6 +34,10 @@ defmodule Hexpm.MixProject do
       mod: {Hexpm.Application, []},
       extra_applications: extra_applications(Mix.env())
     ]
+  end
+
+  defp cli_env_for(env, tasks) do
+    Enum.reduce(tasks, [], fn key, acc -> Keyword.put(acc, :"#{key}", env) end)
   end
 
   defp extra_applications(:test), do: [:logger]
@@ -68,7 +84,8 @@ defmodule Hexpm.MixProject do
       {:rollbax, "~> 0.5"},
       {:sweet_xml, "~> 0.5"},
       {:telemetry_poller, "~> 1.0"},
-      {:telemetry_metrics, "~> 0.6"}
+      {:telemetry_metrics, "~> 0.6"},
+      {:excoveralls, "~> 0.14.4"}
     ]
   end
 

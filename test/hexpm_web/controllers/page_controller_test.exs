@@ -66,4 +66,28 @@ defmodule HexpmWeb.PageControllerTest do
              {%Hexpm.Repository.Package{id: ^package2_id}, 2}
            ] = conn.assigns.package_top
   end
+
+  test "about", %{} do
+    conn = get(build_conn(), "/about")
+
+    assert conn.status == 200
+    assert conn.assigns.title == "About Hex"
+    assert conn.assigns.container == "container page page-sm"
+  end
+
+  test "pricing", %{} do
+    conn = get(build_conn(), "/pricing")
+
+    assert conn.status == 200
+    assert conn.assigns.title == "Pricing"
+    assert conn.assigns.container == "container page pricing"
+  end
+
+  test "sponsors", %{} do
+    conn = get(build_conn(), "/sponsors")
+
+    assert conn.status == 200
+    assert conn.assigns.title == "Sponsors"
+    assert conn.assigns.container == "container page page-sm sponsors"
+  end
 end
