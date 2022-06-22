@@ -69,3 +69,11 @@ config :rollbax, enabled: false
 config :logger, :console, format: "[$level] $metadata$message\n"
 
 import_config "#{Mix.env()}.exs"
+
+config :hexpm, :phoenix_swagger,
+  swagger_files: %{
+    "priv/docs/swagger.json" => [
+      router: HexpmWeb.Router, 
+      endpoint: HexpmWeb.Endpoint
+    ]
+  }

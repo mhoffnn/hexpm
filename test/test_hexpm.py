@@ -33,6 +33,20 @@ def test_redirect_to_rebar_documentation():
     driver.quit()
 
 
+def test_redirect_to_mail_suport():
+    driver = webdriver.Firefox(executable_path='/home/hoffmann/Downloads/geckodriver',options=options)
+    
+    driver.get('http://localhost:4000/')
+    driver.find_element_by_xpath("//a[@href='https://github.com/hexpm']").click()
+    driver.find_element_by_xpath("//a[@href='/hexpm/hexpm']").click()
+    
+    url = driver.current_url
+    url_expected = 'https://github.com/hexpm/hexpm'
+    assert url == url_expected
+    
+    driver.quit()
+
+
 def test_invalid_login():
     driver = webdriver.Firefox(executable_path='/home/hoffmann/Downloads/geckodriver',options=options)
     
@@ -46,8 +60,8 @@ def test_invalid_login():
     url_expected = 'http://localhost:4000/login'
     assert url == url_expected
     
-    alert = driver.find_element_by_xpath("/html/body/section/div[1]/div").tex
+    alert = driver.find_element_by_xpath("/html/body/section/div[1]/div")
     alert_expected = 'Invalid username, email or password.'
-    assert alert == alert_expected
+    assert alert.text == alert_expected
     
     driver.quit()

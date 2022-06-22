@@ -1,6 +1,7 @@
 defmodule HexpmWeb.Router do
   use HexpmWeb, :router
   use Plug.ErrorHandler
+  use PhoenixSwagger
   import Phoenix.LiveDashboard.Router
   alias Hexpm.Accounts.{Organization, User}
 
@@ -200,6 +201,23 @@ defmodule HexpmWeb.Router do
     get "/hexsearch.xml", OpenSearchController, :opensearch
     get "/installs/hex.ez", InstallController, :archive
     get "/feeds/blog.xml", FeedsController, :blog
+  end
+
+  def swagger_info do
+    %{
+      schemes: ["http", "https", "ws", "wss"],
+      info: %{
+        version: "1.0",
+        title: "HexPm",
+        description: "API Documentation for HexPm v1",
+        termsOfService: "Open for public"
+      },
+      consumes: ["application/json"],
+      produces: ["application/json"],
+      tags: [
+        %{name: "Users", description: "User resources"},
+      ]
+    }
   end
 
   scope "/api", HexpmWeb.API, as: :api do

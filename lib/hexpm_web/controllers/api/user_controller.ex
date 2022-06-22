@@ -1,5 +1,6 @@
 defmodule HexpmWeb.API.UserController do
   use HexpmWeb, :controller
+  use PhoenixSwagger
 
   plug :authorize,
        [authentication: :required, domain: "api", resource: "read"]

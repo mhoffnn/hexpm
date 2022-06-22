@@ -85,7 +85,8 @@ defmodule Hexpm.MixProject do
       {:sweet_xml, "~> 0.5"},
       {:telemetry_poller, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
-      {:excoveralls, "~> 0.14.4"}
+      {:excoveralls, "~> 0.14.4"},
+      {:phoenix_swagger, "~> 0.6.2"}
     ]
   end
 
@@ -102,7 +103,8 @@ defmodule Hexpm.MixProject do
       setup: ["deps.get", "ecto.setup", "cmd yarn install --cwd assets"],
       "ecto.setup": ["ecto.reset", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      "swagger": ["phx.swagger.generate priv/static/swagger.json --router DistanceTracker.Router --endpoint DistanceTracker.Endpoint"]
     ]
   end
 
